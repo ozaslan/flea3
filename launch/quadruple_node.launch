@@ -2,11 +2,15 @@
     <!-- Common Interface -->
     <arg name="rate" default="1200"/>
 
+    <!--
+15508517 16024465 16024503 16061369
+    -->
+
     <!-- Camera Settings -->
-    <arg name="top_left" default="16024503"/>
-    <arg name="top_right" default="16061369"/>
-    <arg name="bottom_left" default="16024465"/>
-    <arg name="bottom_right" default="15508517"/>
+    <arg name="top_left" default="16061369"/>
+    <arg name="top_right" default="16024465"/>
+    <arg name="bottom_left" default="15508517"/>
+    <arg name="bottom_right" default="16024503"/>
     <arg name="top_left_camera_name" default="pg_$(arg top_left)"/>
     <arg name="top_right_camera_name" default="pg_$(arg top_right)"/>
     <arg name="bottom_left_camera_name" default="pg_$(arg bottom_left)"/>
