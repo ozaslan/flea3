@@ -394,8 +394,11 @@ void Flea3Camera::SetTrigger(int& trigger_source, int& trigger_polarity) {
   // Source 7 means software trigger
   trigger_mode.source = trigger_source;
   trigger_mode.polarity = trigger_polarity;
+  std::cout << "Trigger Mode before : " << trigger_mode.mode << std::endl;
+  std::cout << "Trigger source : " << trigger_mode.source << std::endl;
   PgrWarn(camera_.SetTriggerMode(&trigger_mode), "Failed to set trigger mode");
   PgrWarn(camera_.GetTriggerMode(&trigger_mode), "Failed to get trigger mode");
+  std::cout << "Trigger Mode after  : " << trigger_mode.mode << std::endl;
   trigger_source = trigger_mode.source;
   trigger_polarity = trigger_mode.polarity;
 }

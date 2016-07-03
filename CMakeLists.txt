@@ -40,6 +40,7 @@ add_library(${PROJECT_NAME}
     src/single/single_node.cpp
     src/stereo/stereo_node.cpp
     src/single/single_nodelet.cpp
+    src/quadruple/quadruple_node.cpp
     )
 target_link_libraries(
     ${PROJECT_NAME}
@@ -52,6 +53,9 @@ target_link_libraries(${PROJECT_NAME}_single_node ${PROJECT_NAME})
 
 add_executable(${PROJECT_NAME}_stereo_node src/stereo/stereo_main.cpp)
 target_link_libraries(${PROJECT_NAME}_stereo_node ${PROJECT_NAME})
+
+add_executable(${PROJECT_NAME}_quadruple_node src/quadruple/quadruple_main.cpp)
+target_link_libraries(${PROJECT_NAME}_quadruple_node ${PROJECT_NAME})
 
 add_executable(${PROJECT_NAME}_list_cameras src/list_cameras.cpp)
 target_link_libraries(${PROJECT_NAME}_list_cameras ${PROJECT_NAME})
