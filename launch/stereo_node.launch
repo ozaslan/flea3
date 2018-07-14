@@ -1,10 +1,10 @@
 <launch>
     <!-- Common Interface -->
-    <arg name="rate" default="7.5"/>
+    <arg name="rate" default="30"/>
 
     <!-- Camera Settings -->
-    <arg name="left" default="15322735"/>
-    <arg name="right" default="15322733"/>
+    <arg name="left" default="16024499"/>
+    <arg name="right" default="16061369"/>
     <arg name="left_camera_name" default="pg_$(arg left)"/>
     <arg name="right_camera_name" default="pg_$(arg right)"/>
     <arg name="left_calib_url" default="file://${ROS_HOME}/camera_info/$(arg left_camera_name).yaml"/>
@@ -19,10 +19,10 @@
     <arg name="video_mode" default="23"/>
     <arg name="pixel_format" default="22"/>
     <arg name="exposure" default="true"/>
-    <arg name="auto_exposure" default="true"/>
-    <arg name="auto_shutter" default="true"/>
-    <arg name="shutter_ms" default="10.0"/>
-    <arg name="auto_gain" default="true"/>
+    <arg name="auto_exposure" default="false"/>
+    <arg name="auto_shutter" default="false"/>
+    <arg name="shutter_ms" default="20.0"/>
+    <arg name="auto_gain" default="false"/>
     <arg name="gain_db" default="0.0"/>
     <arg name="trigger_source" default="7"/>
     <arg name="trigger_polarity" default="0"/>

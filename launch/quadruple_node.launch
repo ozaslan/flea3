@@ -2,15 +2,11 @@
     <!-- Common Interface -->
     <arg name="rate" default="1200"/>
 
-    <!--
-15508517 16024465 16024503 16061369
-    -->
-
     <!-- Camera Settings -->
-    <arg name="top_left" default="16061369"/>
-    <arg name="top_right" default="16024465"/>
-    <arg name="bottom_left" default="15508517"/>
-    <arg name="bottom_right" default="16024503"/>
+    <arg name="top_left" default="16024503"/>
+    <arg name="top_right" default="16024499"/>
+    <arg name="bottom_left" default="17221006"/>
+    <arg name="bottom_right" default="17221009"/>
     <arg name="top_left_camera_name" default="pg_$(arg top_left)"/>
     <arg name="top_right_camera_name" default="pg_$(arg top_right)"/>
     <arg name="bottom_left_camera_name" default="pg_$(arg bottom_left)"/>
@@ -28,12 +24,12 @@
     <arg name="height" default="0"/>
     <arg name="video_mode" default="23"/>
     <arg name="pixel_format" default="22"/>
-    <arg name="exposure" default="true"/>
+    <arg name="exposure" default="false"/>
     <arg name="auto_exposure" default="false"/>
     <arg name="auto_shutter" default="false"/>
-    <arg name="shutter_ms" default="5.0"/>
+    <arg name="shutter_ms" default="20.0"/>
     <arg name="auto_gain" default="false"/>
-    <arg name="gain_db" default="100.0"/>
+    <arg name="gain_db" default="10.0"/>
     <arg name="trigger_source" default="2"/>
     <arg name="trigger_polarity" default="0"/>
     <arg name="strobe_control" default="-1"/>
