@@ -3,9 +3,12 @@
 namespace flea3 {
 
 SingleNode::SingleNode(const ros::NodeHandle &pnh)
-    : CameraNodeBase(pnh), flea3_ros_(pnh) {}
+    : CameraNodeBase(pnh), flea3_ros_(pnh) {
+  sub_mavros_ = pnh.subscribe("~cam_imu_stamp", 1, &SingleNode::MavrosCb);
+}
 
 void SingleNode::Acquire() {
+  ROS_ERROR("Should not happend");
   while (is_acquire() && ros::ok()) {
     if (flea3_ros_.RequestSingle()) {
       const auto expose_duration =
@@ -18,6 +21,14 @@ void SingleNode::Acquire() {
   }
 }
 
+void SingleNode::MavrosCb(
+    const mavros_msgs::CamIMUStampConstPtr &cam_imu_stamp) {
+  const auto start_time = ros::Time::now().toSec();
+  flea3_ros_.PublishCamera(cam_imu_stamp->frame_stamp);
+  const auto duration = ros::Time::now().toSec() - start_time;
+  ROS_INFO("Time publish: %f ms", duration * 1000);
+}
+
 void SingleNode::Setup(Config &config) {
   flea3_ros_.Stop();
   flea3_ros_.camera().Configure(config);
@@ -25,4 +36,4 @@ void SingleNode::Setup(Config &config) {
   flea3_ros_.Start();
 }
 
-}  // namespace flea3
+} // namespace flea3
