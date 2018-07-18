@@ -1,7 +1,7 @@
 <launch>
   <!-- Common Interface -->
   <arg name="device"/>
-  <arg name="rate" default="60"/>
+  <arg name="rate" default="100"/>
 
   <!-- Camera Settings -->
   <arg name="serial" default="$(arg device)"/>
@@ -16,10 +16,10 @@
   <arg name="video_mode" default="23"/>
   <arg name="pixel_format" default="22"/>
   <arg name="exposure" default="true"/>
-  <arg name="auto_exposure" default="false"/>
+  <arg name="auto_exposure" default="true"/>
   <arg name="auto_shutter" default="false"/>
-  <arg name="shutter_ms" default="10.0"/>
-  <arg name="auto_gain" default="false"/>
+  <arg name="shutter_ms" default="5.0"/>
+  <arg name="auto_gain" default="true"/>
   <arg name="gain_db" default="1.0"/>
   <arg name="trigger_source" default="2"/>
   <arg name="trigger_polarity" default="0"/>
