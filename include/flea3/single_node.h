@@ -3,8 +3,8 @@
 
 #include "flea3/Flea3DynConfig.h"
 #include "flea3/flea3_ros.h"
+#include <ros/ros.h>
 #include <camera_base/camera_node_base.h>
-#include <mavros_msgs/CamIMUStamp.h>
 
 namespace flea3 {
 
@@ -12,12 +12,10 @@ using Config = ::flea3::Flea3DynConfig;
 
 class SingleNode : public camera_base::CameraNodeBase<Config> {
 public:
-  explicit SingleNode(const ros::NodeHandle &pnh);
+  explicit SingleNode(ros::NodeHandle &pnh);
 
   void Acquire() override;
   void Setup(Config &config) override;
-
-  void MavrosCb(const mavros_msgs::CamIMUStampConstPtr &cam_imu_stamp);
 
 private:
   ros::Subscriber sub_mavros_;

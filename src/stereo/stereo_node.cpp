@@ -2,10 +2,13 @@
 
 namespace flea3 {
 
-StereoNode::StereoNode(const ros::NodeHandle& pnh)
-    : CameraNodeBase(pnh), left_ros_(pnh, "left"), right_ros_(pnh, "right") {}
+StereoNode::StereoNode(ros::NodeHandle& pnh)
+    : CameraNodeBase(pnh), left_ros_(pnh, "left"), right_ros_(pnh, "right") {
+    sub_mavros_ = pnh.subscribe("cam_imu_stamp", 10, &StereoNode::MavrosCb, this);
+}
 
 void StereoNode::Acquire() {
+  ROS_ERROR("Should not happend");
   while (is_acquire() && ros::ok()) {
     if (left_ros_.RequestSingle() && right_ros_.RequestSingle()) {
       const auto expose_duration =
@@ -16,6 +19,15 @@ void StereoNode::Acquire() {
       Sleep();
     }
   }
+}  
+
+void StereoNode::MavrosCb(
+    const mavros_msgs::CamIMUStampConstPtr &cam_imu_stamp) {
+    const auto start_time = ros::Time::now().toSec();
+    left_ros_.PublishCamera(cam_imu_stamp->frame_stamp);
+    right_ros_.PublishCamera(cam_imu_stamp->frame_stamp);
+    const auto duration = ros::Time::now().toSec() - start_time;
+    ROS_INFO("Time publish: %f ms", duration * 1000);
 }
 
 void StereoNode::Setup(Flea3DynConfig& config) {

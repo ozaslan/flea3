@@ -1,6 +1,12 @@
 <launch>
   <!-- Common Interface -->
-  <arg name="device"/>
+  <!--
+  <arg name="device" default="17221006"/>
+  
+  <arg name="device" default="17221009"/>
+  -->
+  
+  <arg name="device" default="16024499"/>
   <arg name="rate" default="100"/>
 
   <!-- Camera Settings -->
@@ -19,7 +25,7 @@
   <arg name="auto_exposure" default="true"/>
   <arg name="auto_shutter" default="false"/>
   <arg name="shutter_ms" default="5.0"/>
-  <arg name="auto_gain" default="true"/>
+  <arg name="auto_gain" default="false"/>
   <arg name="gain_db" default="1.0"/>
   <arg name="trigger_source" default="2"/>
   <arg name="trigger_polarity" default="0"/>
@@ -61,6 +67,7 @@
     <param name="height" type="int" value="$(arg height)"/>
     <param name="white_balance" type="bool" value="$(arg white_balance)" />
     <param name="auto_white_balance" type="bool" value="$(arg auto_white_balance)" />
+    <remap from="~cam_imu_stamp" to="/mavros/cam_imu_sync/cam_imu_stamp" />
   </node>
 
   <!-- Extras -->

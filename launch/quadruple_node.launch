@@ -76,6 +76,7 @@
         <param name="height" type="int" value="$(arg height)"/>
         <param name="white_balance" type="bool" value="$(arg white_balance)" />
         <param name="auto_white_balance" type="bool" value="$(arg auto_white_balance)" />
+        <remap from="~cam_imu_stamp" to="/mavros/cam_imu_sync/cam_imu_stamp" />
     </node>
 
     <!-- Proc -->
