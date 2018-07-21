@@ -2,11 +2,13 @@
 
 namespace flea3 {
 
-QuadrupleNode::QuadrupleNode(const ros::NodeHandle& pnh)
+QuadrupleNode::QuadrupleNode(ros::NodeHandle& pnh)
     : CameraNodeBase(pnh), top_left_ros_(pnh, "top_left")   ,    top_right_ros_(pnh, "top_right"), 
-                        bottom_left_ros_(pnh, "bottom_left"), bottom_right_ros_(pnh, "bottom_right") {}
+                        bottom_left_ros_(pnh, "bottom_left"), bottom_right_ros_(pnh, "bottom_right") {
+    }
 
 void QuadrupleNode::Acquire() {
+  ROS_ERROR("Should not happend");
   while (is_acquire() && ros::ok()) {
     if (   top_left_ros_.RequestSingle() &&    top_right_ros_.RequestSingle() &&
         bottom_left_ros_.RequestSingle() && bottom_right_ros_.RequestSingle()) {

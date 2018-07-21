@@ -478,4 +478,8 @@ double Flea3Camera::GetShutterTimeSec() {
   return config_.shutter_ms / 1000.0;
 }
 
+bool Flea3Camera::UseExtTriggerStamp() { 
+  return config_.use_ext_trigger_stamp; 
+}
+
 }  // namespace flea3

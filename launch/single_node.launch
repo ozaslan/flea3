@@ -1,7 +1,13 @@
 <launch>
   <!-- Common Interface -->
-  <arg name="device"/>
-  <arg name="rate" default="60"/>
+  <!--
+  <arg name="device" default="17221006"/>
+  
+  <arg name="device" default="17221009"/>
+  -->
+  
+  <arg name="device" default="16024499"/>
+  <arg name="rate" default="100"/>
 
   <!-- Camera Settings -->
   <arg name="serial" default="$(arg device)"/>
@@ -16,9 +22,9 @@
   <arg name="video_mode" default="23"/>
   <arg name="pixel_format" default="22"/>
   <arg name="exposure" default="true"/>
-  <arg name="auto_exposure" default="false"/>
+  <arg name="auto_exposure" default="true"/>
   <arg name="auto_shutter" default="false"/>
-  <arg name="shutter_ms" default="10.0"/>
+  <arg name="shutter_ms" default="5.0"/>
   <arg name="auto_gain" default="false"/>
   <arg name="gain_db" default="1.0"/>
   <arg name="trigger_source" default="2"/>
@@ -27,6 +33,7 @@
   <arg name="strobe_polarity" default="0"/>
   <arg name="white_balance" default="false"/>
   <arg name="auto_white_balance" default="false"/>
+  <arg name="use_ext_trigger_stamp" default="true"/>
 
   <!-- Node Settings -->
   <arg name="output" default="screen"/>
@@ -61,6 +68,7 @@
     <param name="height" type="int" value="$(arg height)"/>
     <param name="white_balance" type="bool" value="$(arg white_balance)" />
     <param name="auto_white_balance" type="bool" value="$(arg auto_white_balance)" />
+    <remap from="~cam_imu_stamp" to="/mavros/cam_imu_sync/cam_imu_stamp" />
   </node>
 
   <!-- Extras -->

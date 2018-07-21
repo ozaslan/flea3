@@ -29,6 +29,7 @@ class Flea3Camera {
   void StopCapture();
   bool RequestSingle();
   double GetShutterTimeSec();
+  bool UseExtTriggerStamp();
 
  private:
   std::string AvailableDevice();

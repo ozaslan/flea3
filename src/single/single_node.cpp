@@ -1,18 +1,23 @@
 #include "flea3/single_node.h"
+#include <mavros_msgs/CamIMUStamp.h> 
 
 namespace flea3 {
 
-SingleNode::SingleNode(const ros::NodeHandle &pnh)
-    : CameraNodeBase(pnh), flea3_ros_(pnh) {}
+SingleNode::SingleNode(ros::NodeHandle &pnh)
+    : CameraNodeBase(pnh), flea3_ros_(pnh) {
+}
 
 void SingleNode::Acquire() {
+  
   while (is_acquire() && ros::ok()) {
+    // In external trigger mode, this request function does not have any effect.
+    // Hence using the time at which this function is called is not the right approach for
+    // the multi-cam synch. purpose.
     if (flea3_ros_.RequestSingle()) {
-      const auto expose_duration =
-          ros::Duration(flea3_ros_.camera().GetShutterTimeSec() / 2);
-      const auto time = ros::Time::now() + expose_duration;
-      flea3_ros_.PublishCamera(time);
-      //      flea3_ros_.PublishImageMetadata(time);
+
+      const auto image_msg = boost::make_shared<sensor_msgs::Image>();
+      flea3_ros_.Grab(image_msg, nullptr);
+      flea3_ros_.Publish(image_msg);
       Sleep();
     }
   }
@@ -25,4 +30,4 @@ void SingleNode::Setup(Config &config) {
   flea3_ros_.Start();
 }
 
-}  // namespace flea3
+} // namespace flea3

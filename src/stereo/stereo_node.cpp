@@ -1,22 +1,30 @@
 #include "flea3/stereo_node.h"
 
+#include <ros/callback_queue.h>
+
 namespace flea3 {
 
-StereoNode::StereoNode(const ros::NodeHandle& pnh)
-    : CameraNodeBase(pnh), left_ros_(pnh, "left"), right_ros_(pnh, "right") {}
+StereoNode::StereoNode(ros::NodeHandle& pnh)
+    : CameraNodeBase(pnh), left_ros_(pnh, "left"), right_ros_(pnh, "right") {
+}
 
 void StereoNode::Acquire() {
   while (is_acquire() && ros::ok()) {
-    if (left_ros_.RequestSingle() && right_ros_.RequestSingle()) {
-      const auto expose_duration =
-          ros::Duration(left_ros_.camera().GetShutterTimeSec() / 2);
-      const auto time = ros::Time::now() + expose_duration;
-      left_ros_.PublishCamera(time);
-      right_ros_.PublishCamera(time);
+    if (right_ros_.RequestSingle() && left_ros_.RequestSingle()) {
+      
+      const auto right_image_msg = boost::make_shared<sensor_msgs::Image>();
+      const auto  left_image_msg = boost::make_shared<sensor_msgs::Image>();
+      
+      left_ros_.Grab(left_image_msg, nullptr);      
+      right_ros_.Grab(right_image_msg, nullptr);      
+
+      right_ros_.Publish(right_image_msg);
+      left_ros_.Publish(left_image_msg);
+
       Sleep();
     }
   }
-}
+}  
 
 void StereoNode::Setup(Flea3DynConfig& config) {
   left_ros_.Stop();

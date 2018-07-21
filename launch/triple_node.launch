@@ -1,22 +1,20 @@
 <launch>
     <!-- Common Interface -->
-    <arg name="rate" default="1200"/>
+    <arg name="rate" default="30"/>
 
     <!-- Camera Settings -->
-    <arg name="top_left" default="16024503"/>
-    <arg name="top_right" default="16024499"/>
-    <arg name="bottom_left" default="17221006"/>
-    <arg name="bottom_right" default="17221009"/>
-    <arg name="top_left_camera_name" default="pg_$(arg top_left)"/>
-    <arg name="top_right_camera_name" default="pg_$(arg top_right)"/>
-    <arg name="bottom_left_camera_name" default="pg_$(arg bottom_left)"/>
-    <arg name="bottom_right_camera_name" default="pg_$(arg bottom_right)"/>
-    <arg name="top_left_calib_url" default="file://${ROS_HOME}/camera_info/$(arg top_left_camera_name).yaml"/>
-    <arg name="top_right_calib_url" default="file://${ROS_HOME}/camera_info/$(arg top_right_camera_name).yaml"/>
-    <arg name="bottom_left_calib_url" default="file://${ROS_HOME}/camera_info/$(arg bottom_left_camera_name).yaml"/>
-    <arg name="bottom_right_calib_url" default="file://${ROS_HOME}/camera_info/$(arg bottom_right_camera_name).yaml"/>
+    <arg name="right"  default="17221009"/>
+    <arg name="middle" default="16024503"/>
+    <arg name="left"   default="17221006"/>
+    
+    <arg name="right_camera_name" default="pg_$(arg right)"/>
+    <arg name="middle_camera_name" default="pg_$(arg middle)"/>
+    <arg name="left_camera_name" default="pg_$(arg left)"/>
+    <arg name="right_calib_url" default="file://${ROS_HOME}/camera_info/$(arg right_camera_name).yaml"/>
+    <arg name="middle_calib_url" default="file://${ROS_HOME}/camera_info/$(arg middle_camera_name).yaml"/>
+    <arg name="left_calib_url" default="file://${ROS_HOME}/camera_info/$(arg left_camera_name).yaml"/>
 
-    <arg name="camera" default="quadruple"/>
+    <arg name="camera" default="triple"/>
     <arg name="frame_id" default="$(arg camera)"/>
     <arg name="fps" default="$(arg rate)"/>
 
@@ -24,18 +22,19 @@
     <arg name="height" default="0"/>
     <arg name="video_mode" default="23"/>
     <arg name="pixel_format" default="22"/>
-    <arg name="exposure" default="false"/>
+    <arg name="exposure" default="true"/>
     <arg name="auto_exposure" default="false"/>
     <arg name="auto_shutter" default="false"/>
-    <arg name="shutter_ms" default="20.0"/>
+    <arg name="shutter_ms" default="10.0"/>
     <arg name="auto_gain" default="false"/>
-    <arg name="gain_db" default="10.0"/>
+    <arg name="gain_db" default="0.0"/>
     <arg name="trigger_source" default="2"/>
     <arg name="trigger_polarity" default="0"/>
     <arg name="strobe_control" default="-1"/>
     <arg name="strobe_polarity" default="0"/>
     <arg name="white_balance" default="false"/>
     <arg name="auto_white_balance" default="false"/>
+    <arg name="use_ext_trigger_stamp" default="true"/>    
 
     <!-- Node Settings -->
     <arg name="output" default="screen"/>
@@ -44,22 +43,18 @@
     <arg name="calib" default="false"/>
 
     <!-- Node -->
-    <node pkg="flea3" type="flea3_quadruple_node" name="$(arg camera)" output="$(arg output)">
-        <param name="top_left/camera_name" type="string" value="$(arg top_left_camera_name)"/>
-        <param name="top_left/identifier" type="string" value="$(arg top_left)"/>
-        <param name="top_left/calib_url" type="string" value="$(arg top_left_calib_url)"/>
+    <node pkg="flea3" type="flea3_triple_node" name="$(arg camera)" output="$(arg output)">
+        <param name="right/camera_name" type="string" value="$(arg right_camera_name)"/>
+        <param name="right/identifier" type="string" value="$(arg right)"/>
+        <param name="right/calib_url" type="string" value="$(arg right_calib_url)"/>
 
-        <param name="top_right/camera_name" type="string" value="$(arg top_right_camera_name)"/>
-        <param name="top_right/identifier" type="string" value="$(arg top_right)"/>
-        <param name="top_right/calib_url" type="string" value="$(arg top_right_calib_url)"/>
+        <param name="middle/camera_name" type="string" value="$(arg middle_camera_name)"/>
+        <param name="middle/identifier" type="string" value="$(arg middle)"/>
+        <param name="middle/calib_url" type="string" value="$(arg middle_calib_url)"/>
 
-        <param name="bottom_left/camera_name" type="string" value="$(arg bottom_left_camera_name)"/>
-        <param name="bottom_left/identifier" type="string" value="$(arg bottom_left)"/>
-        <param name="bottom_left/calib_url" type="string" value="$(arg bottom_left_calib_url)"/>
-
-        <param name="bottom_right/camera_name" type="string" value="$(arg bottom_right_camera_name)"/>
-        <param name="bottom_right/identifier" type="string" value="$(arg bottom_right)"/>
-        <param name="bottom_right/calib_url" type="string" value="$(arg bottom_right_calib_url)"/>
+        <param name="left/camera_name" type="string" value="$(arg left_camera_name)"/>
+        <param name="left/identifier" type="string" value="$(arg left)"/>
+        <param name="left/calib_url" type="string" value="$(arg left_calib_url)"/>
 
         <param name="frame_id" type="string" value="$(arg frame_id)"/>
         <param name="fps" type="double" value="$(arg fps)"/>
@@ -79,20 +74,6 @@
         <remap from="~cam_imu_stamp" to="/mavros/cam_imu_sync/cam_imu_stamp" />
     </node>
 
-    <!-- Proc -->
-    <node if="$(arg proc)"
-        pkg="stereo_image_proc" type="stereo_image_proc"
-        name="stereo_image_proc" ns="$(arg camera)">
-    </node>
-
-    <!-- View -->
-    <arg name="image" default="image_rect"/>
-    <node if="$(arg view)"
-        pkg="image_view" type="stereo_view" name="viewer"
-        output="$(arg output)"
-        args="stereo:=$(arg camera) image:=$(arg image)">
-    </node>
-
     <!-- Calib -->
     <group if="$(arg calib)">
         <arg name="pattern" default="chessboard"/>
@@ -104,8 +85,10 @@
             args="-p $(arg pattern) -s $(arg size) -q $(arg square)
             -k $(arg num_dist_coeff)
             right:=/$(arg camera)/right/image_raw
+            middle:=/$(arg camera)/middle/image_raw
             left:=/$(arg camera)/left/image_raw
             right_camera:=/$(arg camera)/right
+            middle_camera:=/$(arg camera)/middle
             left_camera:=/$(arg camera)/left">
         </node>
     </group>
