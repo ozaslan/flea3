@@ -3,22 +3,30 @@
 namespace flea3 {
 
 QuadrupleNode::QuadrupleNode(ros::NodeHandle& pnh)
-    : CameraNodeBase(pnh), top_left_ros_(pnh, "top_left")   ,    top_right_ros_(pnh, "top_right"), 
-                        bottom_left_ros_(pnh, "bottom_left"), bottom_right_ros_(pnh, "bottom_right") {
+    : CameraNodeBase(pnh),   top_right_ros_(pnh, "top_right")  , bottom_right_ros_(pnh, "bottom_right"),
+                           bottom_left_ros_(pnh, "bottom_left"),     top_left_ros_(pnh, "top_left") {
     }
 
 void QuadrupleNode::Acquire() {
-  ROS_ERROR("Should not happend");
+  
   while (is_acquire() && ros::ok()) {
-    if (   top_left_ros_.RequestSingle() &&    top_right_ros_.RequestSingle() &&
-        bottom_left_ros_.RequestSingle() && bottom_right_ros_.RequestSingle()) {
-      const auto expose_duration =
-          ros::Duration(top_left_ros_.camera().GetShutterTimeSec() / 2);
-      const auto time = ros::Time::now() + expose_duration;
-      top_left_ros_.PublishCamera(time);
-      top_right_ros_.PublishCamera(time);
-      bottom_left_ros_.PublishCamera(time);
-      bottom_right_ros_.PublishCamera(time);
+    if (  top_right_ros_.RequestSingle() && bottom_right_ros_.RequestSingle() &&
+        bottom_left_ros_.RequestSingle() &&     top_left_ros_.RequestSingle()) {
+      
+      const auto  top_right_image_msg    = boost::make_shared<sensor_msgs::Image>();
+      const auto  bottom_right_image_msg = boost::make_shared<sensor_msgs::Image>();
+      const auto  bottom_left_image_msg  = boost::make_shared<sensor_msgs::Image>();
+      const auto  top_left_image_msg     = boost::make_shared<sensor_msgs::Image>();
+      
+      top_right_ros_.Grab(top_right_image_msg, nullptr);      
+      bottom_right_ros_.Grab(bottom_right_image_msg);
+      bottom_left_ros_.Grab(bottom_left_image_msg);
+      top_left_ros_.Grab(top_left_image_msg);
+
+      top_right_ros_.Publish(top_right_image_msg);
+      bottom_right_ros_.Publish(bottom_right_image_msg);
+      bottom_left_ros_.Publish(bottom_left_image_msg);
+      top_left_ros_.Publish(top_left_image_msg);
       Sleep();
     }
   }

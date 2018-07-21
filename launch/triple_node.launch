@@ -2,11 +2,14 @@
     <!-- Common Interface -->
     <arg name="rate" default="30"/>
 
+    <!--
+    <arg name="middle" default="16024503"/>
+    -->
     <!-- Camera Settings -->
     <arg name="right"  default="17221009"/>
-    <arg name="middle" default="16024503"/>
+    <arg name="middle" default="16024499"/>
     <arg name="left"   default="17221006"/>
-    
+
     <arg name="right_camera_name" default="pg_$(arg right)"/>
     <arg name="middle_camera_name" default="pg_$(arg middle)"/>
     <arg name="left_camera_name" default="pg_$(arg left)"/>

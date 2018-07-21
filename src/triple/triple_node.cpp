@@ -16,6 +16,10 @@ void TripleNode::Acquire() {
       const auto middle_image_msg = boost::make_shared<sensor_msgs::Image>();
       const auto   left_image_msg = boost::make_shared<sensor_msgs::Image>();
       
+      right_ros_.Grab(right_image_msg, nullptr);      
+      middle_ros_.Grab(middle_image_msg, nullptr);      
+      left_ros_.Grab(left_image_msg, nullptr);      
+      
       right_ros_.Publish(right_image_msg);
       middle_ros_.Publish(middle_image_msg);
       left_ros_.Publish(left_image_msg);
