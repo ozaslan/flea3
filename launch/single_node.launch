@@ -1,12 +1,14 @@
 <launch>
   <!-- Common Interface -->
   <!--
+  <arg name="device" default="16024499"/>
   <arg name="device" default="17221006"/>
-  
   <arg name="device" default="17221009"/>
+  
   -->
   
-  <arg name="device" default="16024499"/>
+  <arg name="device" default="16024503"/>
+  
   <arg name="rate" default="100"/>
 
   <!-- Camera Settings -->

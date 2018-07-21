@@ -12,11 +12,11 @@ namespace flea3 {
   bool Flea3Ros::Grab(const sensor_msgs::ImagePtr& image_msg,
     const sensor_msgs::CameraInfoPtr& cinfo_msg) {
 
-     auto t00 = ros::Time::now().toSec() * 1e3;
+    // auto t00 = ros::Time::now().toSec() * 1e3;
     auto suc = flea3_.GrabImage(*image_msg);
-     auto t01 = ros::Time::now().toSec() * 1e3;
+    // auto t01 = ros::Time::now().toSec() * 1e3;
 
-     printf("Time to grab : %lf\n", t01 - t00);
+    // printf("Time to grab : %lf\n", t01 - t00);
 
     if(suc == false)
       return suc;
@@ -27,14 +27,14 @@ namespace flea3 {
     ros::Time time = ros::Time::now(); // - ros::Duration(0, (expose_duration + 0.007) * 1.0e+9);
 
     if(flea3_.UseExtTriggerStamp() == true)
-        time = GetClosestTriggerStamp(time, - (expose_duration + 0.007));
+      time = GetClosestTriggerStamp(time, - (expose_duration + 0.007));
 
     image_msg->header.frame_id = frame_id();
     image_msg->header.stamp = time;
 
     return suc;
 
-  // ### return flea3_.GrabImage(*image_msg);
+    // ### return flea3_.GrabImage(*image_msg);
   }
 
   void Flea3Ros::Stop() { 
