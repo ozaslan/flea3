@@ -12,7 +12,11 @@ namespace flea3 {
   bool Flea3Ros::Grab(const sensor_msgs::ImagePtr& image_msg,
     const sensor_msgs::CameraInfoPtr& cinfo_msg) {
 
+     auto t00 = ros::Time::now().toSec() * 1e3;
     auto suc = flea3_.GrabImage(*image_msg);
+     auto t01 = ros::Time::now().toSec() * 1e3;
+
+     printf("Time to grab : %lf\n", t01 - t00);
 
     if(suc == false)
       return suc;

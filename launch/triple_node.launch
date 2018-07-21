@@ -3,15 +3,18 @@
     <arg name="rate" default="30"/>
 
     <!-- Camera Settings -->
-    <arg name="left" default="17221006"/>
-    <arg name="right" default="17221009"/>
+    <arg name="right"  default="17221009"/>
+    <arg name="middle" default="16024503"/>
+    <arg name="left"   default="17221006"/>
     
-    <arg name="left_camera_name" default="pg_$(arg left)"/>
     <arg name="right_camera_name" default="pg_$(arg right)"/>
-    <arg name="left_calib_url" default="file://${ROS_HOME}/camera_info/$(arg left_camera_name).yaml"/>
+    <arg name="middle_camera_name" default="pg_$(arg middle)"/>
+    <arg name="left_camera_name" default="pg_$(arg left)"/>
     <arg name="right_calib_url" default="file://${ROS_HOME}/camera_info/$(arg right_camera_name).yaml"/>
+    <arg name="middle_calib_url" default="file://${ROS_HOME}/camera_info/$(arg middle_camera_name).yaml"/>
+    <arg name="left_calib_url" default="file://${ROS_HOME}/camera_info/$(arg left_camera_name).yaml"/>
 
-    <arg name="camera" default="stereo"/>
+    <arg name="camera" default="triple"/>
     <arg name="frame_id" default="$(arg camera)"/>
     <arg name="fps" default="$(arg rate)"/>
 
@@ -40,14 +43,18 @@
     <arg name="calib" default="false"/>
 
     <!-- Node -->
-    <node pkg="flea3" type="flea3_stereo_node" name="$(arg camera)" output="$(arg output)">
-        <param name="left/camera_name" type="string" value="$(arg left_camera_name)"/>
-        <param name="left/identifier" type="string" value="$(arg left)"/>
-        <param name="left/calib_url" type="string" value="$(arg left_calib_url)"/>
-
+    <node pkg="flea3" type="flea3_triple_node" name="$(arg camera)" output="$(arg output)">
         <param name="right/camera_name" type="string" value="$(arg right_camera_name)"/>
         <param name="right/identifier" type="string" value="$(arg right)"/>
         <param name="right/calib_url" type="string" value="$(arg right_calib_url)"/>
+
+        <param name="middle/camera_name" type="string" value="$(arg middle_camera_name)"/>
+        <param name="middle/identifier" type="string" value="$(arg middle)"/>
+        <param name="middle/calib_url" type="string" value="$(arg middle_calib_url)"/>
+
+        <param name="left/camera_name" type="string" value="$(arg left_camera_name)"/>
+        <param name="left/identifier" type="string" value="$(arg left)"/>
+        <param name="left/calib_url" type="string" value="$(arg left_calib_url)"/>
 
         <param name="frame_id" type="string" value="$(arg frame_id)"/>
         <param name="fps" type="double" value="$(arg fps)"/>
@@ -67,20 +74,6 @@
         <remap from="~cam_imu_stamp" to="/mavros/cam_imu_sync/cam_imu_stamp" />
     </node>
 
-    <!-- Proc -->
-    <node if="$(arg proc)"
-        pkg="stereo_image_proc" type="stereo_image_proc"
-        name="stereo_image_proc" ns="$(arg camera)">
-    </node>
-
-    <!-- View -->
-    <arg name="image" default="image_rect"/>
-    <node if="$(arg view)"
-        pkg="image_view" type="stereo_view" name="viewer"
-        output="$(arg output)"
-        args="stereo:=$(arg camera) image:=$(arg image)">
-    </node>
-
     <!-- Calib -->
     <group if="$(arg calib)">
         <arg name="pattern" default="chessboard"/>
@@ -92,8 +85,10 @@
             args="-p $(arg pattern) -s $(arg size) -q $(arg square)
             -k $(arg num_dist_coeff)
             right:=/$(arg camera)/right/image_raw
+            middle:=/$(arg camera)/middle/image_raw
             left:=/$(arg camera)/left/image_raw
             right_camera:=/$(arg camera)/right
+            middle_camera:=/$(arg camera)/middle
             left_camera:=/$(arg camera)/left">
         </node>
     </group>

@@ -33,6 +33,7 @@
   <arg name="strobe_polarity" default="0"/>
   <arg name="white_balance" default="false"/>
   <arg name="auto_white_balance" default="false"/>
+  <arg name="use_ext_trigger_stamp" default="true"/>
 
   <!-- Node Settings -->
   <arg name="output" default="screen"/>
