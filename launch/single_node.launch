@@ -26,7 +26,7 @@
   <arg name="exposure" default="true"/>
   <arg name="auto_exposure" default="true"/>
   <arg name="auto_shutter" default="false"/>
-  <arg name="shutter_ms" default="5.0"/>
+  <arg name="shutter_ms" default="20.0"/>
   <arg name="auto_gain" default="false"/>
   <arg name="gain_db" default="1.0"/>
   <arg name="trigger_source" default="2"/>

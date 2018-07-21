@@ -18,10 +18,10 @@ void QuadrupleNode::Acquire() {
       const auto  bottom_left_image_msg  = boost::make_shared<sensor_msgs::Image>();
       const auto  top_left_image_msg     = boost::make_shared<sensor_msgs::Image>();
       
-      top_right_ros_.Grab(top_right_image_msg, nullptr);      
-      bottom_right_ros_.Grab(bottom_right_image_msg);
-      bottom_left_ros_.Grab(bottom_left_image_msg);
-      top_left_ros_.Grab(top_left_image_msg);
+      top_right_ros_.Grab(top_right_image_msg, nullptr);
+      bottom_right_ros_.Grab(bottom_right_image_msg, nullptr);
+      bottom_left_ros_.Grab(bottom_left_image_msg, nullptr);
+      top_left_ros_.Grab(top_left_image_msg, nullptr);
 
       top_right_ros_.Publish(top_right_image_msg);
       bottom_right_ros_.Publish(bottom_right_image_msg);

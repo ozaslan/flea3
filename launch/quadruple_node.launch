@@ -29,13 +29,14 @@
     <arg name="auto_shutter" default="false"/>
     <arg name="shutter_ms" default="20.0"/>
     <arg name="auto_gain" default="false"/>
-    <arg name="gain_db" default="10.0"/>
+    <arg name="gain_db" default="1.0"/>
     <arg name="trigger_source" default="2"/>
     <arg name="trigger_polarity" default="0"/>
     <arg name="strobe_control" default="-1"/>
     <arg name="strobe_polarity" default="0"/>
     <arg name="white_balance" default="false"/>
     <arg name="auto_white_balance" default="false"/>
+    <arg name="use_ext_trigger_stamp" default="true"/>
 
     <!-- Node Settings -->
     <arg name="output" default="screen"/>
