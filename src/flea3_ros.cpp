@@ -16,7 +16,7 @@ namespace flea3 {
     auto suc = flea3_.GrabImage(*image_msg);
     auto t01 = ros::Time::now().toSec() * 1e3;
 
-    printf("Time to grab : %lf\n", t01 - t00);
+    // printf("Time to grab : %lf\n", t01 - t00);
 
     if(suc == false)
       return suc;

@@ -74,6 +74,10 @@ add_dependencies(${PROJECT_NAME}
     ${${PROJECT_NAME}_EXPORTED_TARGETS}
     )
 
+# install(PROGRAMS scripts/set_pixhawk_trigger_rate.bash 
+#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#)
+
 # install(TARGETS flea3_single_node flea3_stereo_node flea3_list_cameras
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
